@@ -4,7 +4,7 @@ const cors = require("cors");
 const app = express();
 
 // ✅ MIDDLEWARE
-app.use(cors());              // ALLOWS FRONTEND REQUESTS
+app.use(cors());
 app.use(express.json());
 
 // ✅ ROUTES
@@ -19,10 +19,8 @@ app.get("/", (req, res) => {
   res.send("BASE URL WORKING");
 });
 
-// ✅ START SERVER
-const PORT = 5000;
+// ✅ START SERVER (RENDER SAFE)
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`SERVER RUNNING ON ${PORT}`);
 });
-
-
