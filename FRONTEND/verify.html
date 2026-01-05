@@ -37,7 +37,8 @@
       return;
     }
 
-    fetch(`https://visa-fraud-prevention-system-ox7t.onrender.com/api/verify-consultant?name=${encodeURIComponent(name)}&city=${encodeURIComponent(city)}`)
+  fetch(`https://visa-fraud-prevention-system-ox7r.onrender.com/api/verify-consultant?name=${encodeURIComponent(name)}&city=${encodeURIComponent(city)}`)
+
       .then(response => response.json())
       .then(data => {
         if (data.verified) {
