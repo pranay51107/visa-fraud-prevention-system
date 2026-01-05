@@ -12,16 +12,23 @@
 
     <!-- Google Maps Embed -->
     <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.019062555037!2d-122.41941568468195!3d37.774929779759776!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085814d13f9bbfb%3A0x4b2f4a6f1c51b0c1!2sSan+Francisco%2C+CA!5e0!3m2!1sen!2sus!4v1600000000000!5m2!1sen!2sus"
-      width="600"
-      height="450"
-      style="border:0;"
-      allowfullscreen=""
-      loading="lazy">
-    </iframe>
+  id="map"
+  width="100%"
+  height="400"
+  style="border:0;"
+  loading="lazy">
+</iframe>
 
-    <br><br>
-    <a href="result.html">← Back to Risk Analysis</a>
-  </div>
-</body>
-</html>
+<script>
+  // Try to get city from localStorage
+  const city = localStorage.getItem("consultantCity");
+
+  const map = document.getElementById("map");
+
+  if (city) {
+    map.src = "https://www.google.com/maps?q=" + city + "&output=embed";
+  } else {
+    // fallback location (demo safe)
+    map.src = "https://www.google.com/maps?q=San Francisco&output=embed";
+  }
+</script>

@@ -10,18 +10,58 @@
 
     <p>Based on the uploaded documents and consultant verification:</p>
 
-    <ul>
-      <li>✔ Passport verified</li>
-      <li>✔ Offer letter verified</li>
-      <li>⚠ Medium risk detected due to minor mismatch</li>
-    </ul>
+    <ul id="details"></ul>
 
-    <h3>Final Decision: MANUAL REVIEW REQUIRED</h3>
+    <h3 id="finalDecision"></h3>
 
     <br>
     <a href="maps.html">📍 View Consultant Location</a>
     <br><br>
     <a href="index.html">← Back to Home</a>
   </div>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("riskResult"));
+
+    const detailsList = document.getElementById("details");
+    const decision = document.getElementById("finalDecision");
+
+    if (!data) {
+      decision.innerText = "⚠ No verification data found";
+    } else {
+      // Document status
+      const passportOk = data.passportVerified === true;
+      const offerOk = data.offerLetterVerified === true;
+
+      detailsList.innerHTML += passportOk
+        ? "<li>✔ Passport verified</li>"
+        : "<li>❌ Passport not verified</li>";
+
+      detailsList.innerHTML += offerOk
+        ? "<li>✔ Offer letter verified</li>"
+        : "<li>❌ Offer letter not verified</li>";
+
+      // Risk display
+      if (data.riskLevel === "HIGH") {
+        detailsList.innerHTML += "<li>⚠ High risk detected</li>";
+      } else if (data.riskLevel === "MEDIUM") {
+        detailsList.innerHTML += "<li>⚠ Medium risk detected</li>";
+      } else {
+        detailsList.innerHTML += "<li>✔ Low risk detected</li>";
+      }
+
+      // ✅ FINAL DECISION LOGIC (IMPORTANT FIX)
+      if (!passportOk || !offerOk) {
+        decision.innerText = "⚠ FINAL DECISION: MANUAL REVIEW REQUIRED";
+      } else if (data.riskLevel === "HIGH") {
+        decision.innerText = "❌ FINAL DECISION: HIGH RISK – FRAUD SUSPECTED";
+      } else if (data.riskLevel === "MEDIUM") {
+        decision.innerText = "⚠ FINAL DECISION: MANUAL REVIEW REQUIRED";
+      } else {
+        decision.innerText = "✅ FINAL DECISION: SAFE";
+      }
+    }
+  </script>
 </body>
 </html>
+

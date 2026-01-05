@@ -11,17 +11,51 @@
     <p>Enter consultant details</p>
 
     <label>Consultant Name</label>
-    <input type="text">
+    <input type="text" id="name" placeholder="Enter consultant name">
 
     <label>City</label>
-    <input type="text">
+    <input type="text" id="city" placeholder="Enter city">
 
-    <button>Verify Consultant</button>
+    <button onclick="verifyConsultant()">Verify Consultant</button>
 
-    <p>✅ Consultant office found and verified.</p>
+    <!-- Result will appear here -->
+    <p id="result"></p>
 
     <br>
     <a href="document.html">Next → Document Check</a>
   </div>
+
+  <!-- ✅ SCRIPT BLOCK (THIS WAS MISSING) -->
+  <script>
+    function verifyConsultant() {
+      const name = document.getElementById("name").value;
+      const city = document.getElementById("city").value;
+
+      // basic validation
+      if (!name || !city) {
+        document.getElementById("result").innerText =
+          "❌ Please enter all details";
+        return;
+      }
+
+      // backend API call
+      fetch(`http://localhost:5000/api/verify-consultant?name=${name}&city=${city}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.trusted) {
+            document.getElementById("result").innerText =
+              "✅ Consultant office found and VERIFIED";
+          } else {
+            document.getElementById("result").innerText =
+              "❌ Consultant NOT verified / possible fraud";
+          }
+        })
+        .catch(error => {
+          console.error(error);
+          document.getElementById("result").innerText =
+            "⚠️ Backend not responding";
+        });
+    }
+  </script>
 </body>
 </html>

@@ -1,21 +1,28 @@
 const express = require("express");
+const cors = require("cors");
 
 const app = express();
+
+// ✅ MIDDLEWARE
+app.use(cors());              // ALLOWS FRONTEND REQUESTS
 app.use(express.json());
 
-// ROUTES
+// ✅ ROUTES
 const consultantRoutes = require("./routes/consultantRoutes");
 const documentRoutes = require("./routes/documentRoutes");
 
 app.use("/api", consultantRoutes);
 app.use("/api", documentRoutes);
 
-// BASE URL
+// ✅ BASE URL (TEST)
 app.get("/", (req, res) => {
   res.send("BASE URL WORKING");
 });
 
-app.listen(5000, () => {
-  console.log("SERVER RUNNING ON 5000");
+// ✅ START SERVER
+const PORT = 5000;
+app.listen(PORT, () => {
+  console.log(`SERVER RUNNING ON ${PORT}`);
 });
+
 

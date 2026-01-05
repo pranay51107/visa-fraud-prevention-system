@@ -10,14 +10,47 @@
 
     <p>Upload visa-related documents</p>
 
-    <input type="file">
+    <input type="file" id="documentFile">
 
-    <button>Check Authenticity</button>
+    <button onclick="checkDocument()">Check Authenticity</button>
 
-    <p>⚠️ Name mismatch detected between passport and offer letter.</p>
+    <p id="status"></p>
 
     <br>
     <a href="result.html">Next → Risk Analysis</a>
   </div>
+
+  <!-- ✅ SCRIPT BLOCK -->
+  <script>
+    function checkDocument() {
+      const fileInput = document.getElementById("documentFile");
+      const status = document.getElementById("status");
+
+      if (!fileInput.files.length) {
+        status.innerText = "❌ Please upload a document first";
+        return;
+      }
+
+      status.innerText = "⏳ Checking document authenticity...";
+
+      // Backend API call (no file upload handling yet – demo friendly)
+      fetch("http://localhost:5000/api/check-document")
+        .then(res => res.json())
+        .then(data => {
+          // Save backend response for result.html
+          localStorage.setItem("riskResult", JSON.stringify(data));
+
+          status.innerText =
+            "⚠️ Document checked. Proceed to risk analysis.";
+
+          // Optional auto‑redirect
+          // window.location.href = "result.html";
+        })
+        .catch(err => {
+          console.error(err);
+          status.innerText = "⚠️ Backend not responding";
+        });
+    }
+  </script>
 </body>
 </html>
