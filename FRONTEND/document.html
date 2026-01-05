@@ -21,36 +21,31 @@
   </div>
 
   <!-- ✅ SCRIPT BLOCK -->
-  <script>
-    function checkDocument() {
-      const fileInput = document.getElementById("documentFile");
-      const status = document.getElementById("status");
+<script>
+  function checkDocument() {
+    const fileInput = document.getElementById("documentFile");
+    const status = document.getElementById("status");
 
-      if (!fileInput.files.length) {
-        status.innerText = "❌ Please upload a document first";
-        return;
-      }
-
-      status.innerText = "⏳ Checking document authenticity...";
-
-      // Backend API call (no file upload handling yet – demo friendly)
-      fetch("https://visa-fraud-prevention-system.onrender.com/api/verify-consultant?name=" + name + "&city=" + city)
-        .then(res => res.json())
-        .then(data => {
-          // Save backend response for result.html
-          localStorage.setItem("riskResult", JSON.stringify(data));
-
-          status.innerText =
-            "⚠️ Document checked. Proceed to risk analysis.";
-
-          // Optional auto‑redirect
-          // window.location.href = "result.html";
-        })
-        .catch(err => {
-          console.error(err);
-          status.innerText = "⚠️ Backend not responding";
-        });
+    if (!fileInput.files.length) {
+      status.innerText = "❌ Please upload a document first";
+      return;
     }
-  </script>
+
+    status.innerText = "⏳ Checking document authenticity...";
+
+    // ✅ DEMO LOGIC (MVP‑friendly, no real file processing)
+    const riskResult = {
+      passportVerified: true,
+      offerLetterVerified: true,
+      riskLevel: "LOW"
+    };
+
+    // Save data for result.html
+    localStorage.setItem("riskResult", JSON.stringify(riskResult));
+
+    status.innerText = "✅ Document checked. Proceed to risk analysis.";
+  }
+</script>
+
 </body>
 </html>

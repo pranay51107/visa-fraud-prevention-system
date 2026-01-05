@@ -26,36 +26,35 @@
   </div>
 
   <!-- ✅ SCRIPT BLOCK (THIS WAS MISSING) -->
-  <script>
-    function verifyConsultant() {
-      const name = document.getElementById("name").value;
-      const city = document.getElementById("city").value;
+<script>
+  function verifyConsultant() {
+    const name = document.getElementById("name").value;
+    const city = document.getElementById("city").value;
 
-      // basic validation
-      if (!name || !city) {
-        document.getElementById("result").innerText =
-          "❌ Please enter all details";
-        return;
-      }
-
-      // backend API call
-      fetch(`https://visa-fraud-prevention-system.onrender.com/api/verify-consultant?name=${name}&city=${city}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.trusted) {
-            document.getElementById("result").innerText =
-              "✅ Consultant office found and VERIFIED";
-          } else {
-            document.getElementById("result").innerText =
-              "❌ Consultant NOT verified / possible fraud";
-          }
-        })
-        .catch(error => {
-          console.error(error);
-          document.getElementById("result").innerText =
-            "⚠️ Backend not responding";
-        });
+    if (!name || !city) {
+      document.getElementById("result").innerText =
+        "❌ Please enter all details";
+      return;
     }
-  </script>
+
+    fetch(`https://visa-fraud-prevention-system-ox7t.onrender.com/api/verify-consultant?name=${encodeURIComponent(name)}&city=${encodeURIComponent(city)}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.verified) {
+          document.getElementById("result").innerText =
+            "✅ Consultant office found and VERIFIED";
+        } else {
+          document.getElementById("result").innerText =
+            "❌ Consultant NOT verified / possible fraud";
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        document.getElementById("result").innerText =
+          "⚠️ Backend not responding";
+      });
+  }
+</script>
+
 </body>
 </html>
