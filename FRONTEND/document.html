@@ -34,7 +34,7 @@
       status.innerText = "⏳ Checking document authenticity...";
 
       // Backend API call (no file upload handling yet – demo friendly)
-      fetch("http://localhost:5000/api/check-document")
+      fetch("https://visa-fraud-prevention-system.onrender.com/api/verify-consultant?name=" + name + "&city=" + city)
         .then(res => res.json())
         .then(data => {
           // Save backend response for result.html

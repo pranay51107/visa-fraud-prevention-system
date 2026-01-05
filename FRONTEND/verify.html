@@ -39,7 +39,7 @@
       }
 
       // backend API call
-      fetch(`http://localhost:5000/api/verify-consultant?name=${name}&city=${city}`)
+      fetch(`https://visa-fraud-prevention-system.onrender.com/api/verify-consultant?name=${name}&city=${city}`)
         .then(response => response.json())
         .then(data => {
           if (data.trusted) {
