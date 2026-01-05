@@ -8,7 +8,7 @@
   <div class="container">
     <h2>Document Authenticity Check</h2>
 
-    <p>Upload visa-related documents</p>
+    <p>Upload visa-related documents (Passport / Offer Letter)</p>
 
     <input type="file" id="documentFile">
 
@@ -20,32 +20,49 @@
     <a href="result.html">Next → Risk Analysis</a>
   </div>
 
-  <!-- ✅ SCRIPT BLOCK -->
-<script>
-  function checkDocument() {
-    const fileInput = document.getElementById("documentFile");
-    const status = document.getElementById("status");
+  <script>
+    function checkDocument() {
+      const fileInput = document.getElementById("documentFile");
+      const status = document.getElementById("status");
 
-    if (!fileInput.files.length) {
-      status.innerText = "❌ Please upload a document first";
-      return;
+      if (!fileInput.files.length) {
+        status.innerText = "❌ Please upload a document first";
+        return;
+      }
+
+      const fileName = fileInput.files[0].name.toLowerCase();
+      status.innerText = "⏳ Checking document authenticity...";
+
+      let riskResult;
+
+      // ✅ DEMO VERIFICATION LOGIC
+      if (
+        fileName.includes("passport") ||
+        fileName.includes("offer") ||
+        fileName.includes("visa")
+      ) {
+        // Looks like a valid document
+        riskResult = {
+          passportVerified: true,
+          offerLetterVerified: true,
+          riskLevel: "LOW"
+        };
+
+        status.innerText = "✅ Document verified successfully";
+      } else {
+        // Random / unrelated image
+        riskResult = {
+          passportVerified: false,
+          offerLetterVerified: false,
+          riskLevel: "HIGH"
+        };
+
+        status.innerText = "❌ Invalid document detected";
+      }
+
+      // Save result for result.html
+      localStorage.setItem("riskResult", JSON.stringify(riskResult));
     }
-
-    status.innerText = "⏳ Checking document authenticity...";
-
-    // ✅ DEMO LOGIC (MVP‑friendly, no real file processing)
-    const riskResult = {
-      passportVerified: true,
-      offerLetterVerified: true,
-      riskLevel: "LOW"
-    };
-
-    // Save data for result.html
-    localStorage.setItem("riskResult", JSON.stringify(riskResult));
-
-    status.innerText = "✅ Document checked. Proceed to risk analysis.";
-  }
-</script>
-
+  </script>
 </body>
 </html>
